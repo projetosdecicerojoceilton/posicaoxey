@@ -1,23 +1,71 @@
+<!DOCTYPE html>
 <html>
-<head>
-<title> Posição X e Y </title>
-</head>
-<body>
+  <head>
+    <title>Exemplo de Círculo em Movimento</title>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="400" height="400"></canvas>
 
-<script>
-// Selecione o elemento HTML onde deseja adicionar o evento de clique
-const element = document.querySelector('body');
+    <script>
+      // Obtenha o elemento canvas do HTML
+      const canvas = document.getElementById('myCanvas');
 
-// Adicione o evento de clique ao elemento selecionado
-element.addEventListener('click', function(event) {
-  // Obtenha a posição X e Y do clique do usuário
-  const x = event.clientX;
-  const y = event.clientY;
+      // Obtenha o contexto de renderização 2D
+      const ctx = canvas.getContext('2d');
 
-  // Exiba as coordenadas na console
-  alert(`Posição X: ${x}, Posição Y: ${y}`);
-});
+      // Defina as propriedades do círculo grande
+      const circleX = canvas.width / 2;
+      const circleY = canvas.height / 2;
+      const circleRadius = 100;
 
-</script>
-</body>
+      // Desenhe o círculo grande
+      ctx.beginPath();
+      ctx.arc(circleX, circleY, circleRadius, 0, 2 * Math.PI);
+      ctx.stroke();
+
+      // Defina as propriedades do círculo pequeno
+      let smallCircleX = circleX;
+      let smallCircleY = circleY;
+      const smallCircleRadius = 20;
+
+      // Adicione o evento de clique ao elemento canvas
+      canvas.addEventListener('click', function(event) {
+        // Obtenha a posição X e Y do clique do usuário
+        const clickX = event.clientX - canvas.offsetLeft;
+        const clickY = event.clientY - canvas.offsetTop;
+
+        // Calcule a distância entre o centro do círculo grande e a posição do clique
+        const distance = Math.sqrt(Math.pow(clickX - circleX, 2) + Math.pow(clickY - circleY, 2));
+
+        // Verifique se o clique está dentro do círculo grande
+        if (distance < circleRadius) {
+          // Atualize a posição do círculo pequeno
+          smallCircleX = clickX;
+          smallCircleY = clickY;
+        }
+      });
+
+      // Defina uma função de animação para atualizar a posição do círculo pequeno
+      function animate() {
+        // Limpe o canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Desenhe o círculo grande
+        ctx.beginPath();
+        ctx.arc(circleX, circleY, circleRadius, 0, 2 * Math.PI);
+        ctx.stroke();
+
+        // Desenhe o círculo pequeno
+        ctx.beginPath();
+        ctx.arc(smallCircleX, smallCircleY, smallCircleRadius, 0, 2 * Math.PI);
+        ctx.fill();
+
+        // Solicite a próxima animação
+        requestAnimationFrame(animate);
+      }
+
+      // Inicie a animação
+      animate();
+    </script>
+  </body>
 </html>
