@@ -1,0 +1,23 @@
+<html>
+<head>
+<title> Posição X e Y </title>
+</head>
+<body>
+
+<script>
+// Selecione o elemento HTML onde deseja adicionar o evento de clique
+const element = document.querySelector('body');
+
+// Adicione o evento de clique ao elemento selecionado
+element.addEventListener('click', function(event) {
+  // Obtenha a posição X e Y do clique do usuário
+  const x = event.clientX;
+  const y = event.clientY;
+
+  // Exiba as coordenadas na console
+  alert(`Posição X: ${x}, Posição Y: ${y}`);
+});
+
+</script>
+</body>
+</html>
