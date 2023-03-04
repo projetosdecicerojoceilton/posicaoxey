@@ -42,11 +42,21 @@
           // Atualize a posição do círculo pequeno
           smallCircleX = clickX;
           smallCircleY = clickY;
-        }
-      });
+        } else {
+          // Calcule a posição do círculo pequeno ao longo da linha que une o centro do círculo grande e a posição do clique
+          const angle = Math.atan2(clickY - circleY, clickX - circleX);
+          smallCircleX = circleX + circleRadius * Math.cos(angle);
+          smallCircleY = circleY + circleRadius * Math.sin(angle);
 
-      // Defina uma função de animação para atualizar a posição do círculo pequeno
-      function animate() {
+          // Verifique se o círculo pequeno está fora do limite do círculo grande
+          const distanceFromCenter = Math.sqrt(Math.pow(smallCircleX - circleX, 2) + Math.pow(smallCircleY - circleY, 2));
+          if (distanceFromCenter > circleRadius) {
+            // Atualize a posição do círculo pequeno para a posição mais próxima do limite do círculo grande
+            smallCircleX = circleX + (circleRadius * Math.cos(angle));
+            smallCircleY = circleY + (circleRadius * Math.sin(angle));
+          }
+        }
+
         // Limpe o canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -59,13 +69,7 @@
         ctx.beginPath();
         ctx.arc(smallCircleX, smallCircleY, smallCircleRadius, 0, 2 * Math.PI);
         ctx.fill();
-
-        // Solicite a próxima animação
-        requestAnimationFrame(animate);
-      }
-
-      // Inicie a animação
-      animate();
+      });
     </script>
   </body>
-</html>
+</html
